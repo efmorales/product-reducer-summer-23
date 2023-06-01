@@ -35,6 +35,8 @@ export default function productReducer (product, action) { //product is state
                 ...product
             ];  //temp
             return addArray
+        case 'get-products':
+            return action.payload;
 
         default:
             alert('No matching types!')

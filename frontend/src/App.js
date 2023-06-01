@@ -1,42 +1,55 @@
-import React, {useReducer} from 'react'
+import React, {useReducer, useEffect} from 'react'
 import './App.css';
 import {v4 as uuidv4} from 'uuid'
 import productReducer from './reducers/productReducer'
 import ProductCard from './components/ProductCard';
 
 function App() {
-  const initialState = [
-    {
-      id: uuidv4(),
-      title: "Hogwart's Legacy",
-      publisher: "Warner Bros.",
-      genre: "Adventure",
-      price: 59.99
-    },
-    {
-      id: uuidv4(),
-      title: "Destiny 2",
-      publisher: "Bungie",
-      genre: "FPS",
-      price: 29.99
-    },
-    {
-      id: uuidv4(),
-      title: "The Last of Us",
-      publisher: "Sony",
-      genre: "Adventure",
-      price: 69.99
-    },
-    {
-      id: uuidv4(),
-      title: "Total War: Warhammer III",
-      publisher: "Sega",
-      genre: "Strategy",
-      price: 49.99
-    }
-  ]
+  // const initialState = [
+  //   {
+  //     id: uuidv4(),
+  //     title: "Hogwart's Legacy",
+  //     publisher: "Warner Bros.",
+  //     genre: "Adventure",
+  //     price: 59.99
+  //   },
+  //   {
+  //     id: uuidv4(),
+  //     title: "Destiny 2",
+  //     publisher: "Bungie",
+  //     genre: "FPS",
+  //     price: 29.99
+  //   },
+  //   {
+  //     id: uuidv4(),
+  //     title: "The Last of Us",
+  //     publisher: "Sony",
+  //     genre: "Adventure",
+  //     price: 69.99
+  //   },
+  //   {
+  //     id: uuidv4(),
+  //     title: "Total War: Warhammer III",
+  //     publisher: "Sega",
+  //     genre: "Strategy",
+  //     price: 49.99
+  //   }
+  // ]
 
-  const [product, dispatch] = useReducer(productReducer, initialState)
+  const [product, dispatch] = useReducer(productReducer, [])
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await fetch('http://localhost:4000/api/products/all-products')
+      const data = await response.json()
+      dispatch({
+        type: 'get-products',
+        payload: data,
+      })
+    }
+    loadData();
+  }, [])
+  
  
 
   return (
