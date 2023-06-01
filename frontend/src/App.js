@@ -42,6 +42,11 @@ function App() {
   return (
     <div className="App">
       <h1>Video Game Products</h1>
+      <button onClick={
+        () => dispatch({
+          type: 'add-product'
+        })
+      }>Add Product</button>
       {
         product.map((element) => {
           return (
