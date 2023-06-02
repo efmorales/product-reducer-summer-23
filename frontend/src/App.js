@@ -38,23 +38,50 @@ function App() {
 
   const [product, dispatch] = useReducer(productReducer, [])
 
-  useEffect(() => {
-    const loadData = async () => {
-      const response = await fetch('http://localhost:4000/api/products/all-products')
-      const data = await response.json()
-      dispatch({
-        type: 'get-products',
-        payload: data,
-      })
-    }
-    loadData();
-  }, [])
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     const response = await fetch('http://localhost:4000/api/products/all-products')
+  //     const data = await response.json()
+  //     dispatch({
+  //       type: 'get-products',
+  //       payload: data,
+  //     })
+  //   }
+  //   loadData();
+  // }, [])
   
- 
+ let onClickHandler = () => {
+  const dataFetch = async () => {
+    const response = await fetch('http://localhost:4000/api/store/products');
+    const data = await response.json();
+    const newData = [];
+
+    data.map((e)=>{
+      newData.push({
+        id: e.id,
+        title: e.gameTitle,
+        publisher: e.publisherName,
+        genre: e.genre,
+        price: e.MSRP,
+      })
+    })
+    dispatch({
+      type: 'get-products',
+      payload: newData,
+    })
+  console.log(data[0]);
+  console.log(newData[0]);
+
+  }
+  dataFetch();
+ }
 
   return (
     <div className="App">
       <h1>Video Game Products</h1>
+
+      <button onClick={onClickHandler}> Steam API </button>
+
       <button onClick={
         () => dispatch({
           type: 'add-product'
